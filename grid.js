@@ -71,7 +71,29 @@ var addChain = function (row, column, chainSum, chain) {
 };
 
 var checkAdjacent = function (row, column, chainSum, chain) {
-  
+  // check if cell is valid coordinate if not valid stop
+  if (!validCoordinate(row, column)) {
+    return;
+  }
+
+  // check if cell has been used in current chain if used stop
+  if (!coordinateUsed(row, column, chain)) {
+    return;
+  }
+
+  // add value in current cell to chainSum
+  chainSum = chainSum + grid[row][column];
+  // run addChain function to add valid cell to chain
+  addChain(row, column, chainSum, Object.assign({}, chain));
+
+};
+
+var validCoordinate = function (row, column) {
+
+};
+
+var coordinateUsed = function (row, column, chain) {
+
 };
 
 
