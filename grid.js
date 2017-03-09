@@ -1,6 +1,7 @@
 var gridArea = 0;
 var gridHeight = 0;
 var gridWidth = 0;
+var validAnswers = {};
 
 // create user defined m X n grid
 var makeGrid = function (width, height) {
@@ -41,7 +42,7 @@ var addChain = function (row, column, chainSum, chain) {
       var sortedAnswerKey = Object.keys(chain).sort();
       // check if answer is long enough (width - 1)
       if (sortedAnswerKey.length >= gridWidth - 1) {
-        // add to validanswers
+        // add to validAnswers
         validAnswers[sortedAnswerKey] = chain;
       }
     }
@@ -107,4 +108,17 @@ var coordinateUsed = function (row, column, chain) {
 };
 
 
-makeGrid(3, 3);
+var grid = makeGrid(3, 3);
+grid.forEach(function(row) {
+  console.log(row);
+});
+
+grid.forEach(function(row, rowIdx, array) {
+  row.forEach(function(column, colIdx, array2) {
+    addChain(rowIdx, colIdx);
+  });
+});
+
+console.log('The valid answers are :');
+console.log(validAnswers);
+console.log('Total # of valid answers : ', Object.keys(validAnswers).length);
