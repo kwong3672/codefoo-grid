@@ -97,7 +97,13 @@ var validCoordinate = function (row, column) {
 };
 
 var coordinateUsed = function (row, column, chain) {
-
+  var unused = true;
+  var key = '' + row + column;
+  // if value in object equal to value in cell, the cell has been used
+  if (chain[key] === grid[row][column]) {
+    unused = false;
+  }
+  return unused;
 };
 
 
