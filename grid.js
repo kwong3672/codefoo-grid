@@ -89,7 +89,11 @@ var checkAdjacent = function (row, column, chainSum, chain) {
 };
 
 var validCoordinate = function (row, column) {
-
+  var valid = true;
+  if (row < 0 || row >= gridHeight || column < 0 || column >= gridWidth) {
+    valid = false;
+  }
+  return valid;
 };
 
 var coordinateUsed = function (row, column, chain) {
