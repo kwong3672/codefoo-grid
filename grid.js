@@ -3,7 +3,7 @@ var gridHeight = 0;
 var gridWidth = 0;
 var validAnswers = {};
 
-// create user defined m X n grid
+// function that creates a user defined m X n grid
 var makeGrid = function (width, height) {
   gridHeight = height;
   gridWidth = width;
@@ -23,7 +23,8 @@ var makeGrid = function (width, height) {
   return grid;
 };
 
-var addChain = function (row, column, chainSum, chain) {
+// function that create a chain of cells and checks if the value inside adds up to a valid answer
+var createChain = function (row, column, chainSum, chain) {
   // create key using row and column as coordinates
   var key = '' + row + column;
   // define default values if parameter values not provided
@@ -32,46 +33,44 @@ var addChain = function (row, column, chainSum, chain) {
   chainSum = chainSum || grid[row][column];
   chain = chain || {};
 
-  // check if sum of chain is <= to grid area
-  if (chainSum <= gridArea) {
-    chain[key] = grid[row][column];
+  chain[key] = grid[row][column];
 
-    // check if sum of chain is equal to the grid area
-    if (chainSum === gridArea) {
-      // create sorted key using coordinate of keys in answer
-      var sortedAnswerKey = Object.keys(chain).sort();
-      // check if answer is long enough (width - 1)
-      if (sortedAnswerKey.length >= gridWidth - 1) {
-        // add to validAnswers
-        validAnswers[sortedAnswerKey] = chain;
-      }
+  // check if sum of chain is equal to the grid area
+  if (chainSum === gridArea) {
+    // create sorted key using coordinate of keys in answer
+    var sortedAnswerKey = Object.keys(chain).sort();
+    // check if answer is long enough (width - 1)
+    if (sortedAnswerKey.length >= gridWidth - 1) {
+      // add to validAnswers
+      validAnswers[sortedAnswerKey] = chain;
     }
-
-    // check all adjacent cells
-    // check above
-    checkAdjacent(row - 1, column, chain, Object.assign({}, chain));
-    // check diagonal above and right
-    checkAdjacent(row - 1, column + 1, chainSum, Object.assign({}, chain));
-    // check right
-    checkAdjacent(row, column + 1, chainSum, Object.assign({}, chain));
-    // check diagonal below and right
-    checkAdjacent(row + 1, column + 1, chainSum, Object.assign({}, chain));
-    // // check below
-    checkAdjacent(row + 1, column, chainSum, Object.assign({}, chain));
-    // check diagonal below and left
-    checkAdjacent(row + 1, column - 1, chainSum, Object.assign({}, chain));
-    // check left
-    checkAdjacent(row, column - 1, chainSum, Object.assign({}, chain));
-    // check diagonal above and left
-    checkAdjacent(row - 1, column - 1, chainSum, Object.assign({}, chain));
-  
-  } else {
-    // if sum of chain greater than area end function
-    return;
   }
+  checkAdjacent(row, column, chainSum, chain);
+  
 };
 
+// function that check all adjacent cells
 var checkAdjacent = function (row, column, chainSum, chain) {
+  // check above
+  checkCoordinate(row - 1, column, chain, Object.assign({}, chain));
+  // check diagonal above and right
+  checkCoordinate(row - 1, column + 1, chainSum, Object.assign({}, chain));
+  // check right
+  checkCoordinate(row, column + 1, chainSum, Object.assign({}, chain));
+  // check diagonal below and right
+  checkCoordinate(row + 1, column + 1, chainSum, Object.assign({}, chain));
+  // // check below
+  checkCoordinate(row + 1, column, chainSum, Object.assign({}, chain));
+  // check diagonal below and left
+  checkCoordinate(row + 1, column - 1, chainSum, Object.assign({}, chain));
+  // check left
+  checkCoordinate(row, column - 1, chainSum, Object.assign({}, chain));
+  // check diagonal above and left
+  checkCoordinate(row - 1, column - 1, chainSum, Object.assign({}, chain));
+};
+
+// function that checks if the coordinate is valid, unused and less than the area
+var checkCoordinate = function (row, column, chainSum, chain) {
   // check if cell is valid coordinate if not valid stop
   if (!validCoordinate(row, column)) {
     return;
@@ -84,11 +83,15 @@ var checkAdjacent = function (row, column, chainSum, chain) {
 
   // add value in current cell to chainSum
   chainSum = chainSum + grid[row][column];
-  // run addChain function to add valid cell to chain
-  addChain(row, column, chainSum, Object.assign({}, chain));
+  // run createChain function to add valid cell to chain
+  if (chainSum > gridArea) {
+    return;
+  }
 
+  createChain(row, column, chainSum, Object.assign({}, chain));
 };
 
+// function to check if coordinate being check is a valid cell location
 var validCoordinate = function (row, column) {
   var valid = true;
   if (row < 0 || row >= gridHeight || column < 0 || column >= gridWidth) {
@@ -97,6 +100,7 @@ var validCoordinate = function (row, column) {
   return valid;
 };
 
+// function that checks to see if current coordinate has already been used in current chain
 var coordinateUsed = function (row, column, chain) {
   var unused = true;
   var key = '' + row + column;
@@ -107,18 +111,22 @@ var coordinateUsed = function (row, column, chain) {
   return unused;
 };
 
-
+// create and display grid
 var grid = makeGrid(3, 3);
 grid.forEach(function(row) {
   console.log(row);
 });
 
+// 
 grid.forEach(function(row, rowIdx, array) {
   row.forEach(function(column, colIdx, array2) {
-    addChain(rowIdx, colIdx);
+    createChain(rowIdx, colIdx);
   });
 });
 
-console.log('The valid answers are :');
-console.log(validAnswers);
+// display answers
 console.log('Total # of valid answers : ', Object.keys(validAnswers).length);
+console.log('The valid answers are :');
+for (var keys in validAnswers) {
+  console.log(validAnswers[keys]);
+}
