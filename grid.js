@@ -108,7 +108,7 @@ var coordinateUsed = function (row, column, chain) {
 };
 
 // create and display grid change parameters to increase grid size
-var grid = makeGrid(4, 4);
+var grid = makeGrid(3, 3);
 grid.forEach(function(row) {
   console.log(row);
 });
