@@ -33,40 +33,36 @@ var createChain = function (row, column, chainSum, chain) {
   chainSum = chainSum || grid[row][column];
   chain = chain || {};
 
-  chain[key] = grid[row][column];
+  if (chainSum <= gridArea) {
+    chain[key] = grid[row][column];
 
-  // check if sum of chain is equal to the grid area
-  if (chainSum === gridArea) {
-    // create sorted key using coordinate of keys in answer
-    var sortedAnswerKey = Object.keys(chain).sort();
-    // check if answer is long enough (width - 1)
-    if (sortedAnswerKey.length >= gridWidth - 1) {
-      // add to validAnswers
-      validAnswers[sortedAnswerKey] = chain;
+    // check if sum of chain is equal to the grid area 
+    if (chainSum === gridArea) {
+      // create sorted key using coordinates of the valid answer
+      var sortedAnswerKey = Object.keys(chain).sort();
+      // check if answer is long enough (width - 1) add to valid answers
+      if (sortedAnswerKey.length >= gridWidth - 1) {
+        validAnswers[sortedAnswerKey] = chain;
+      }
     }
-  }
-  checkAdjacent(row, column, chainSum, chain);
-  
-};
 
-// function that check all adjacent cells
-var checkAdjacent = function (row, column, chainSum, chain) {
-  // check above
-  checkCoordinate(row - 1, column, chain, Object.assign({}, chain));
-  // check diagonal above and right
-  checkCoordinate(row - 1, column + 1, chainSum, Object.assign({}, chain));
-  // check right
-  checkCoordinate(row, column + 1, chainSum, Object.assign({}, chain));
-  // check diagonal below and right
-  checkCoordinate(row + 1, column + 1, chainSum, Object.assign({}, chain));
-  // // check below
-  checkCoordinate(row + 1, column, chainSum, Object.assign({}, chain));
-  // check diagonal below and left
-  checkCoordinate(row + 1, column - 1, chainSum, Object.assign({}, chain));
-  // check left
-  checkCoordinate(row, column - 1, chainSum, Object.assign({}, chain));
-  // check diagonal above and left
-  checkCoordinate(row - 1, column - 1, chainSum, Object.assign({}, chain));
+    // checkAdjacent(row, column, chainSum, chain);
+    checkCoordinate(row - 1, column, chain, Object.assign({}, chain));
+    // check diagonal above and right
+    checkCoordinate(row - 1, column + 1, chainSum, Object.assign({}, chain));
+    // check right
+    checkCoordinate(row, column + 1, chainSum, Object.assign({}, chain));
+    // check diagonal below and right
+    checkCoordinate(row + 1, column + 1, chainSum, Object.assign({}, chain));
+    // // check below
+    checkCoordinate(row + 1, column, chainSum, Object.assign({}, chain));
+    // check diagonal below and left
+    checkCoordinate(row + 1, column - 1, chainSum, Object.assign({}, chain));
+    // check left
+    checkCoordinate(row, column - 1, chainSum, Object.assign({}, chain));
+    // check diagonal above and left
+    checkCoordinate(row - 1, column - 1, chainSum, Object.assign({}, chain));
+  }
 };
 
 // function that checks if the coordinate is valid, unused and less than the area
@@ -112,7 +108,7 @@ var coordinateUsed = function (row, column, chain) {
 };
 
 // create and display grid change parameters to increase grid size
-var grid = makeGrid(3, 3);
+var grid = makeGrid(4, 4);
 grid.forEach(function(row) {
   console.log(row);
 });
@@ -125,8 +121,8 @@ grid.forEach(function(row, rowIdx, array) {
 });
 
 // display answers
-console.log('Total # of valid answers : ', Object.keys(validAnswers).length);
 console.log('The valid answers are :');
 for (var keys in validAnswers) {
   console.log(validAnswers[keys]);
 }
+console.log('Total # of valid answers : ', Object.keys(validAnswers).length);
