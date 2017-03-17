@@ -20,6 +20,7 @@ example: var grid = makeGrid(4, 4);
 
 Although the program can create and find solution for larger grids it does have issues with 5X5 and larger grids which can have thousands of valid answers.  O(c^n) 
 
-4X4 grids and smaller is usually done under 0.5s
-5X5 grids can take anywhere from 2s to over 30s with over 10000+ valid answers
+3X3 grids are usually done in 0.1s
+4X4 grids and usually done under 0.5s
+5X5 grids can take anywhere from 2s to over 30s with over 10000+ valid answers usually under 8s
 
