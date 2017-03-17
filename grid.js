@@ -111,13 +111,13 @@ var coordinateUsed = function (row, column, chain) {
   return unused;
 };
 
-// create and display grid
+// create and display grid change parameters to increase grid size
 var grid = makeGrid(3, 3);
 grid.forEach(function(row) {
   console.log(row);
 });
 
-// 
+// create chain starting at each cell of grid
 grid.forEach(function(row, rowIdx, array) {
   row.forEach(function(column, colIdx, array2) {
     createChain(rowIdx, colIdx);
