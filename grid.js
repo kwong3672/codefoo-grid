@@ -1,5 +1,9 @@
 const createGrid = require('./createGrid.js');
 const coordinateUsed = require('./coordinateUsed.js');
+const validCoordinate = require('./validCoordinate.js');
+const { height, width, area } = require('./gridVariables.js');
+
+console.log('grid.js: ', height)
 
 var gridArea = 9;
 var gridHeight = 3;
@@ -70,17 +74,8 @@ var checkCoordinate = function (grid, row, column, chainSum, chain) {
   createChain(row, column, chainSum, Object.assign({}, chain));
 };
 
-// function to check if coordinate being check is a valid cell location
-var validCoordinate = function (row, column) {
-  var valid = true;
-  if (row < 0 || row >= gridHeight || column < 0 || column >= gridWidth) {
-    valid = false;
-  }
-  return valid;
-};
-
 // create and display grid change parameters to increase grid size
-var grid = createGrid(3, 3);
+var grid = createGrid(width, height);
 grid.forEach(function(row) {
   console.log(row);
 });
@@ -98,3 +93,8 @@ for (var keys in validAnswers) {
   console.log(validAnswers[keys]);
 }
 console.log('Total # of valid answers : ', Object.keys(validAnswers).length);
+
+module.exports = {
+  height: 3
+};
+
