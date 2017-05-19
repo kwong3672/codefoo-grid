@@ -1,3 +1,4 @@
+const variables = require('./gridVariables.js');
 
 // function that checks to see if current coordinate has already been used in current chain
 module.exports = (grid, row, column, chain) => {
