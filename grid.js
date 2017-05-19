@@ -1,27 +1,9 @@
+const createGrid = require('./createGrid.js');
+
 var gridArea = 0;
 var gridHeight = 0;
 var gridWidth = 0;
 var validAnswers = {};
-
-// function that creates a user defined m X n grid
-var makeGrid = function (width, height) {
-  gridHeight = height;
-  gridWidth = width;
-  gridArea = gridWidth * gridHeight;
-
-  // create array to store grid
-  var grid = [];
-  // create array for each row of grid
-  for (var i = 0; i < gridHeight; i++) {
-    var row = [];
-    // create random num (0-9) for each column in row
-    for (var j = 0; j < gridWidth; j++) {
-      row.push(Math.floor(Math.random() * 10));
-    }
-    grid.push(row);
-  }
-  return grid;
-};
 
 // function that create a chain of cells and checks if the value inside adds up to a valid answer
 var createChain = function (row, column, chainSum, chain) {
@@ -108,7 +90,7 @@ var coordinateUsed = function (row, column, chain) {
 };
 
 // create and display grid change parameters to increase grid size
-var grid = makeGrid(3, 3);
+var grid = createGrid(3, 3);
 grid.forEach(function(row) {
   console.log(row);
 });
